@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>21-22</title>
+    <style>
+        .red{
+            background-color: red;
+            left: 0;
+            top: 0;
+        }
+        .blue{
+            background-color: blue;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 100px;
+        }
+        .circle{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+<div id="round" class="circle red"></div>
+<div id="secondRound" class="circle blue"></div>
+<script>
+
+    let startDate=Date.now();//получаем timestamp
+    let timeDuration=Date.now()-startDate;
+    let bodyWidth=document.body.clientWidth;
+    let circleRed= document.querySelector('.red');
+    let circleBlue= document.querySelector('.blue');
+
+    let positionCircleRedLeft=getComputedStyle(circleRed).left;//берем значение свойства элемента из стилей
+    let positionCircleRedTop=getComputedStyle(circleRed).top;
+
+    let positionCircleRedLeftCut=+positionCircleRedLeft.substring(0,positionCircleRedLeft.length-2);
+    let positionCircleRedTopCut=+positionCircleRedTop.substring(0,positionCircleRedTop.length-2);
+
+    let id;
+    function repeat() {
+        let timeDuration=Date.now()-startDate;
+        console.log(Number(circleBlue.style.height));
+
+
+
+
+            circleBlue.style.height=timeDuration/100 +'px';
+            circleBlue.style.width=timeDuration/100 +'px';
+
+
+        id=requestAnimationFrame(repeat);
+
+    }
+
+    id=requestAnimationFrame(repeat);
+
+    let anim=setInterval(function () {
+
+
+
+        if (positionCircleRedLeftCut<bodyWidth)
+        {
+            positionCircleRedLeftCut+=10;
+
+        }
+        else {
+            positionCircleRedLeftCut=0;
+            positionCircleRedTopCut+=100;
+        }
+        circleRed.style.left=positionCircleRedLeftCut+'px';
+        circleRed.style.top=positionCircleRedTopCut+'px';
+    },1000/60);
+
+
+</script>
+</body>
+</html>
