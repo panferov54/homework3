@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2</title>
+    <script src="Jquery.js">  </script>
+    <style>
+        #kvadrat{
+            width: 200px;
+            height: 200px;
+            background-color: darkgreen;
+            position: absolute;
+            left: 600px;
+            top: 300px;
+        }
+        .buttons{
+            position: absolute;
+           width: 250px;
+            height: 80px;
+margin-left: 35%;
+           text-align: center;
+            padding: 20px;
+            background-color: darkkhaki;
+        }
+        #bottom{
+         position: absolute;
+            top: 70px;
+            left: 117px;
+
+        }
+        #top{
+            position: absolute;
+            top: 20px;
+            left: 115px;
+        }
+        #left{
+            position: absolute;
+            top: 45px;
+            left: 55px;
+
+        }
+        #right{
+            position: absolute;
+            top: 45px;
+            left: 165px;
+        }
+            button{
+                cursor: pointer;
+                background-color: cornflowerblue;
+
+                border-radius: 25px;
+            }
+        #left{
+
+        }
+    </style>
+</head>
+<body>
+<div id="kvadrat"></div>
+<div class="buttons">
+    <button id="left">ВЛЕВО</button>
+    <button id="top">ВВЕРХ</button>
+    <button id="right">ВПРАВО</button>
+    <button id="bottom">ВНИЗ</button>
+</div>
+
+<script>
+
+    $(function () {
+        $('#left').click(function () {
+        $('#kvadrat').animate({
+            left:'-=50px'
+        },1000);
+        })
+        $('#right').click(function () {
+            $('#kvadrat').animate({
+                left:'+=50px'
+            },1000);
+        })
+        $('#top').click(function () {
+            $('#kvadrat').animate({
+                top:'-=50px'
+            },1000);
+        })
+        $('#bottom').click(function () {
+            $('#kvadrat').animate({
+                top:'+=50px'
+            },1000);
+        })
+
+    })
+</script>
+</body>
+</html>
