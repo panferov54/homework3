@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hw8</title>
+    <script src="Jquery.js">  </script>
+    <script src="jquery-ui.min.js"></script>
+    <style>
+        h1,h2{
+            font-weight: 300;
+            text-align: center;
+            margin: 20px auto;
+
+            border: 2px solid #608fd7;
+            width: 350px;
+            border-radius: 25px;
+            background-color: rgba(96, 143, 215, 0.55);
+
+        }
+
+        #page{
+            background-color: rgba(173, 216, 230, 0.52);
+            width: 400px;
+            height: auto;
+            border-radius: 25px;
+            padding-top: 20px;
+            margin: 0 auto;
+
+        }
+        #gallery{
+            margin: 0 auto;
+            width: 80%;
+            background-color: whitesmoke;
+            border-radius: 20px;
+        }
+        li{
+            padding: 5px;
+            color: #336699;
+        }
+        #showForm{
+            border-radius: 25px;
+            background-color: rgba(48, 89, 153, 0.55);
+            border: 1px solid rgba(48, 89, 153, 0.55);
+            width: 150px;
+            height: 40px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            margin-left: 20px;
+        }
+        #itemDescription{
+            width: 200px;
+            height: 30px;
+            margin-left: 15px;
+            border-radius: 25px;
+            background-color: whitesmoke;
+            color: black;
+            padding-left: 10px;
+
+        }
+        #add{
+            width: 100px;
+            height: 40px;
+            background-color: green;
+            border-radius: 25px;
+            border: 1px solid green;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 50px;
+        }
+        .korzina{
+
+            width: 400px;
+            height: 310px;
+            background-color: #fdbba4;
+            text-align: center;
+            margin: 20px auto;
+        }
+        h3{
+            width: 300px;
+            font-size: 1.5rem;
+            font-weight: 400;
+            font-family: sans-serif;
+            padding-top: 10px;
+
+            background-color: #e76237;
+            padding-bottom: 12px;
+        }
+        .korzina>#del{
+            text-decoration: none;
+            width: 100px;
+            height: 50px;
+            margin-left: 300px;
+
+
+            background-color: black;
+            color: white;
+
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        #trash{
+            width: 200px;
+            height: 200px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+<div id="page">
+    <h1 class="header">Список покупок
+    </h1>
+    <h2>В списке: <span id="counter"></span> товаров</h2>
+    <ul id="gallery" class="sortable">
+        <li     class="li-drag">Порошок</li>
+        <li  class="li-drag">Рис</li>
+        <li  class="li-drag">Чай</li>
+        <li  class="li-drag">Вода</li>
+    </ul>
+
+    <div id="newItemButton">
+        <a href="#" id="showForm">новый элемент</a>
+    </div>
+    <form action="" id="newItemForm">
+        <input type="text" id="itemDescription" placeholder="Введите название товара">
+        <input type="submit" id="add" value="добавить">
+    </form>
+</div>
+
+<div class="korzina">
+    <h3>Корзина</h3>
+    <a href="#" id="del">очистить</a>
+
+    <div id="trash"></div>
+</div>
+<script>
+    $(function () {
+
+      $('.sortable').sortable();
+      $('.li-drag').draggable({
+        //  containment:'#container,#trash',
+          snap:'#trash',
+          cursor:'move',
+          opacity:0.5,
+          revert:'invalid',
+
+      });
+        $('#trash').droppable({
+            drop:function (event,ui) {
+                ui.addClass(true),
+                ui.draggable.position({
+                    my:'left top' ,//наше значение .drop
+                   at:'left top' ,//значение перетаскиемого элемента
+                    of:$('#trash') ,//указываем на какой элемент заносим
+                });
+
+            },
+            addClass:true,
+            accept:'.li-drag',
+
+        });
+     $('#del').click(function () {
+         $('.ui-draggable-dragging').remove();
+
+     })
+
+    })
+</script>
+</body>
+</html>

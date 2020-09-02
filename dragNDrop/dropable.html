@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dropable</title>
+    <script src="Jquery.js"></script>
+    <script src="jquery-ui.min.js"></script>
+
+    <style>
+        #container {
+            width: 700px;
+            height: 900px;
+            border: 2px solid black;
+            margin: 0 auto;
+        }
+
+        #container > .widget {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+        }
+
+        #container > .widget_2 {
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+        }
+
+        #container > .drop {
+            width: 200px;
+            height: 200px;
+            margin-left: auto;
+            background-color: #c5f8c5;
+        }
+        .korzina{
+            width: 250px;
+            height: 250px;
+            background-color: yellow;
+        }
+        .success{
+            background-color: darkslategray!important;
+        }
+
+    </style>
+</head>
+<body>
+<div id="container">
+    <div class="widget">block 1</div>
+    <div class="widget_2">block 2</div>
+    <div class="drop">тащи сюда</div>
+<div class="korzina"></div>
+
+    <script>
+        $(function () {
+        $('#container>div:not(.drop)').draggable({
+            containment:'#container',
+            snap:'#container',
+            cursor:'move',
+            opacity:0.5,
+            revert:'invalid',
+
+        });
+
+        $('.drop').droppable({
+
+           //событие drop - происходит при занесение объекта в дроп объект
+        //при успешном переносе на дроп объект, перетаскиваемый объект получит начальную позицию
+            drop:function (event,ui) {
+  //элемент который переносим
+   ui.draggable.position({
+     my:'left top' ,//наше значение .drop
+     at:'left top' ,//значение перетаскиемого элемента
+     of:$('.drop') ,//указываем на какой элемент заносим
+   });
+        },
+            hoverClass:'succes',//добавляет класс при занесение объекта
+            accept:'.widget',//только к этому объекту применяется
+
+        });
+       $('.korzina').droppable({
+
+           drop:function (event,ui) {
+
+                  ui.remove();
+
+           }
+       })
+        });
+    </script>
+</div>
+</body>
+</html>
