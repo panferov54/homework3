@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dndgame</title>
+    <script src="Jquery.js"></script>
+    <script src="cookie_jquery.js"></script>
+    <script src="jquery-ui.min.js"></script>
+
+    <style>
+
+
+        #content{
+            margin: 80px 70px;
+        }
+        #start{
+            display: none;
+            background-color: #fdbba4;
+            width: 90%;
+            height: 70%;
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #start h3{
+            font-size: 3rem;
+        }
+        #start button{
+
+            font-size: 3rem;
+            background-color: #608fd7;
+            border-radius: 25px;
+        }
+        #cardPile{
+            background-color: #ffd;
+        }
+        #cardSlots{
+          background-color: #ddf;
+        }
+        #cardPile, #cardSlots{
+            display: flex;
+            flex-wrap: wrap;
+            border: 2px solid black;
+            width: 80%;
+            min-height: 200px;
+            margin: 60px auto;
+            border-radius: 25px;
+        }
+        #cardPile div{
+            background-color: #666;
+            color: #fff;
+            font-size: 50px;
+            text-shadow: 0 0 3px #000;
+    cursor: pointer;
+        }
+
+        #cardPile div, #cardSlots div{
+            border-radius: 25px;
+            width: 50px;
+            /*height: 10%;*/
+            flex: 1 0 auto;
+            padding: 40px 10px 0;
+            border: 2px solid black;
+            text-align: center;
+            margin: 2px;
+            line-height: 100px;
+            user-select: none;
+        }
+        .correct{
+            background-color: #608fd7!important;
+            box-shadow: 0 0 15px #608fd7;
+        }
+        #successMessage{
+            display: none;
+            width: 300px;
+            height: 100px;
+            background-color: #93c4ef;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #f8f8b6;
+            border-radius: 50px;
+            position: absolute;
+            top: 200px;
+            left: 40%;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div id="content">
+    <div id="cardPile"></div>
+    <div id="cardSlots"></div>
+
+
+
+</div>
+<div id="start">
+    <h3>Перед вами появиться 10 цифр, их нужно перетащить на цифры которые находятся под ними, у вас есть на 3 попытки. Удачи!!</h3>
+    <button onclick="document.location.reload()">Начать игру</button>
+</div>
+<div id="successMessage">
+    <h2><span id="Message__text">Победа!!!</span></h2>
+    <button onclick="document.location.reload()">Сыграть еще раз</button>
+</div>
+<script>
+    $(function () {
+      let numbers=[1,2,3,4,5,6,7,8,9,10] ;
+      let words=['один','два','три','четыре','пять','шесть','семь','восемь','девять','десять'];
+      let correctCards=0;
+      let mistake=0;
+
+    //  перетуем числа случайным образом
+        numbers.sort(function () {
+            return .5-Math.random();
+        });
+
+        //заполнение cardPile
+        for (let i=0;i<10;i++){
+            $('<div><span>'+numbers[i] +'</span></div>').data('number',numbers[i]).appendTo('#cardPile').draggable({
+                containment:'#content',
+                revert:true,
+                opacity:0.5,
+                cursor:'move',
+                snap:'#cardSlots>div',
+            //     start:function (event,ui) {
+            // alert($(this).data('number'));
+            //     }
+
+            });
+        }
+$('#cardPile>div>span').delay(2000).fadeOut(2000);
+        //заполнение cardSlots
+        for (let j=0;j<10;j++){
+            $('<div>'+words[j] +'</div>').data('number',j+1).appendTo('#cardSlots').droppable({
+                accept:'#cardPile > div',
+                drop:handleCardDrop,
+                // drop:function (event,ui) {
+                //     alert($(this).data('number'));
+                // }
+
+            });
+        };
+
+    function handleCardDrop(event,ui) {
+        let slotNumber= $(this).data('number');
+        let cardNumber= ui.draggable.data('number');//берем ДАТА номер у перетаскиваемого объекта
+        if (slotNumber!==cardNumber){
+            mistake++;
+            console.log(mistake);
+            if (mistake===3){
+                $('#cardPile>div>span').delay(500).fadeIn(2000);
+                $('#Message__text').html('Вы проиграли');
+                $('#successMessage').fadeIn(1500);
+            }
+        }
+
+        if(slotNumber===cardNumber){
+            ui.draggable.addClass('correct');
+            ui.draggable.draggable('disable');
+            ui.draggable.position({
+                my:'left top' ,
+                at:'left top' ,
+                of:$(this) ,
+            });
+            //отключим возврат на начальную позицию
+            ui.draggable.draggable('option','revert',false);
+            //или ui.draggable('disable');
+            correctCards++;
+            if(correctCards===10){
+                $('#successMessage').fadeIn(1500);
+            }
+        };
+        console.log(correctCards);
+    };
+
+        if($.cookie('visit')){
+
+        }else{
+            $('#content').css('display','none');
+            $.cookie('visit',true)  ;
+            $('#start').css('display','block');
+
+        }
+
+
+    });
+</script>
+</body>
+</html>
